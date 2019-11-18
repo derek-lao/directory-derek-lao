@@ -8,7 +8,7 @@
 
 int main()
 {
-  char * d = ".";
+  char * d = "..";
   DIR * mydir = opendir(d);
   int bytes = 0;
 
@@ -38,10 +38,6 @@ int main()
   while(file)
   {
     stat(file->d_name, &statistics);
-    if(errno)
-    {
-      printf("%d: %s\n", errno, strerror(errno));
-    }
 
     bytes += statistics.st_size;
     if(statistics.st_mode / 01000 == 040)
