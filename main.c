@@ -6,14 +6,25 @@
 #include <string.h>
 #include <time.h>
 
-int main()
+int main(int argc, char *argv[])
 {
-  char * d = "..";
+  char * d = malloc(100);
+  if(argv[1])
+  {
+    d = argv[1];
+  }
+  else
+  {
+    printf("Nothing was scanned. Please enter a directory to scan.\n");
+    fgets(d, 100, stdin);
+    d[strlen(d) - 1] = 0;
+  }
   DIR * mydir = opendir(d);
   int bytes = 0;
 
   if(errno)
   {
+    printf("Invalid directory (or no directory at all) was entered\n");
     printf("%d: %s\n", errno, strerror(errno));
   }
 
@@ -52,7 +63,7 @@ int main()
     }
     file = readdir(mydir);
   }
-  printf("Statistics for directory \"%c\"\nTotal directory size: %lld Bytes\n", *d, bytes);
+  printf("Statistics for directory \"%s\"\nTotal directory size: %lld Bytes\n\n", d, bytes);
   printf("Directories:\n%sRegular files:\n%s\n", dir, files);
   return 0;
 }
